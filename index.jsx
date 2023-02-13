@@ -1,0 +1,1 @@
+export  { default as NmsitdOAuthProvider } from './src/providers/NmsitdOAuthProvider';
