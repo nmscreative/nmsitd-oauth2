@@ -3,10 +3,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Main from '../components/Main';
 
 const queryClient = new QueryClient();
-const BaseProvider = () => {
+const BaseProvider = ({ children }) => {
   return (
      <QueryClientProvider client={queryClient}>
-      <Main />
+      <Main>
+        { children }
+      </Main>
     </QueryClientProvider>
   );
 }

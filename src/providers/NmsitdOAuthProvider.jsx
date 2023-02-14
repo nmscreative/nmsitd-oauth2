@@ -1,11 +1,16 @@
 import React from 'react';
+import { createContext } from 'react';
 import BaseProvider from './BaseProvider';
 
-const NmsitdOAuthProvider = ({ children }) => {
+export const NmsitdOAuthContext = createContext(null);
+
+const NmsitdOAuthProvider = ({ children, oauth }) => {
   return (
-    <BaseProvider>
-      { children }
-    </BaseProvider>
+    <NmsitdOAuthContext.Provider value={{ oauth }}>
+      <BaseProvider>
+        {children}
+      </BaseProvider>
+    </NmsitdOAuthContext.Provider>
   );
 }
 

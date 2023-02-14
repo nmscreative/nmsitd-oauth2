@@ -3,7 +3,6 @@ import env from '../config/env';
 import { CodeChallengeEnum } from '../enums/codeChallengeEnum';
 import { GrantTypeEnum } from '../enums/grantTypeEnum';
 import { TokenEnum } from '../enums/tokenEnum';
-import { fetchToken } from '../config/api';
 
 const createCodeVerifier = ( size ) => {
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
@@ -28,16 +27,16 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const PKCEAuthCodeFirstStep = () => {
-  const oauthURLAuthorize = `${env.AUTH_URL}/${env.API_VERSION_1}/oauth/authorize`;
-  const queryParams = [`client_id=${env.CLIENT_ID}`];
+const PKCEAuthCodeFirstStep = (oauth) => {
+  const oauthURLAuthorize = `${oauth.oauthURL}/${env.API_VERSION_1}/oauth/authorize`;
+  const queryParams = [`client_id=${oauth.oauthClientId}`];
   const codeVerifier = createCodeVerifier(getRandomInt(43, 128));
   const state = createCodeVerifier(40);
   sessionStorage.setItem( CodeChallengeEnum.CODE_VERIFIER, codeVerifier );
   sessionStorage.setItem( CodeChallengeEnum.STATE, state );
   try {
     const codeChallenge = generateChallenge(codeVerifier);
-    queryParams.push(`redirect_uri=${env.REDIRECT_URI}`);
+    queryParams.push(`redirect_uri=${oauth.oauthRedirectURI}`);
     queryParams.push('response_type=code');
     queryParams.push('scope=*');
     queryParams.push(`state=${state}`);
@@ -50,19 +49,19 @@ const PKCEAuthCodeFirstStep = () => {
   }
 };
 
-const PKCEAuthCodeSecondStep = async (code) => {
+const PKCEAuthCodeSecondStep = async (oauth, code) => {
   let params = {
     grant_type: GrantTypeEnum.AUTHORIZATION_CODE,
-    redirect_uri: env.REDIRECT_URI,
-    client_id: env.CLIENT_ID,
+    redirect_uri: oauth.oauthRedirectURI,
+    client_id: oauth.oauthClientId,
     code_verifier: sessionStorage.getItem(CodeChallengeEnum.CODE_VERIFIER),
     code: code
   };
-  sessionStorage.removeItem( CodeChallengeEnum.CODE_VERIFIER);
   try {
-    const result = await fetchToken(params);
+    const result = await oauth.fetchToken(params);
     if (!result.ok) throw new Error('access token');
     const tokenResponse = result.data;
+    sessionStorage.removeItem( CodeChallengeEnum.CODE_VERIFIER);
     localStorage.setItem(TokenEnum.TOKEN_TYPE, tokenResponse.token_type);
     localStorage.setItem(TokenEnum.EXPIRES_IN, tokenResponse.expires_in);
     localStorage.setItem(TokenEnum.ACCESS_TOKEN, tokenResponse.access_token);
@@ -75,14 +74,7 @@ const PKCEAuthCodeSecondStep = async (code) => {
   }
 };
 
-const PKCELogout = () => {
-  let oidcLogoutUrl = `${env.AUTH_URL}/${env.LOGOUT_ROUTE}`;
-  window.location.replace(`${oidcLogoutUrl}?token_id=${sessionStorage.getItem('token_id')}`);
-};
-
-
 export default {
-  PKCELogout,
   PKCEAuthCodeFirstStep,
   PKCEAuthCodeSecondStep,
 };

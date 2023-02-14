@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { Fragment } from 'react';
-import { fetchAuthUser, handleApiResponse, oauthPing } from '../config/api';
+import React, { Fragment, useContext } from 'react';
 import { HttpStatusEnum } from '../enums/httpStatusEnum';
 import { TokenEnum } from '../enums/tokenEnum';
+import { NmsitdOAuthContext } from '../providers/NmsitdOAuthProvider';
 import AuthLanding from './AuthLanding';
 
 const Main = ({ children }) => {
-  const logout = (data) => {
-    if(HttpStatusEnum.UNAUTHENTICATED === data.status) {
+  const { oauth } = useContext(NmsitdOAuthContext);
+  const logout = ({ status }) => {
+    if(HttpStatusEnum.UNAUTHENTICATED === status) {
       sessionStorage.clear();
       localStorage.clear();
       window.location.replace('/');
@@ -15,21 +16,21 @@ const Main = ({ children }) => {
   };
 
   useQuery({
-    queryKey: ['oauth-ping'],
+    queryKey: ['nmsitd-oauth-user'],
     queryFn: async () => {
-      const response = await oauthPing();
-      return handleApiResponse(response);
+      const response = await oauth.oauthUser();
+      return oauth.handleOauthResponse(response);
     },
     enabled: Boolean(localStorage.getItem(TokenEnum.ACCESS_TOKEN)),
     onError: logout,
-    onSuccess: (data) => console.log(data?.message)
+    onSuccess: (data) => data
   });
 
   return (
     <Fragment>
       <AuthLanding />
       { children }
-    </Fragment>
+    </Fragment> 
   );
 }
 
