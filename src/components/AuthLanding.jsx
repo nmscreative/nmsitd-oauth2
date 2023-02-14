@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { CodeChallengeEnum } from '../enums/codeChallengeEnum';
 import { TokenEnum } from '../enums/tokenEnum';
 import pkce from '../helpers/pkce';
-import { useOAuthClient } from '../providers/NmsitdOAuthProvider';
+import { useOAuthClient } from '../providers/NmsItdOAuthProvider';
 
 const AuthLanding = () => {
   const { oauth } = useOAuthClient();

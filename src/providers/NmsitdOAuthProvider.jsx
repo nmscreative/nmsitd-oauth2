@@ -2,25 +2,25 @@ import React, { useContext } from 'react';
 import { createContext } from 'react';
 import BaseProvider from './BaseProvider';
 
-const NmsitdOAuthContext = createContext(null);
+const NmsItdOAuthContext = createContext(null);
 
 export const useOAuthClient = () => {
-  const oauthClient = useContext(NmsitdOAuthContext);
+  const oauthClient = useContext(NmsItdOAuthContext);
   if (!oauthClient) {
-    throw new Error('No NmsItdOAuthClient set, use NmsitdOAuthProvider to set one')
+    throw new Error('No NmsItdOAuthClient set, use NmsItdOAuthProvider to set one')
   }
 
   return oauthClient;
 };
 
-const NmsitdOAuthProvider = ({ children, oauth }) => {
+const NmsItdOAuthProvider = ({ children, oauth }) => {
   return (
-    <NmsitdOAuthContext.Provider value={{ oauth }}>
+    <NmsItdOAuthContext.Provider value={{ oauth }}>
       <BaseProvider>
         {children}
       </BaseProvider>
-    </NmsitdOAuthContext.Provider>
+    </NmsItdOAuthContext.Provider>
   );
 }
 
-export default NmsitdOAuthProvider;
+export default NmsItdOAuthProvider;

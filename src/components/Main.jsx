@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { Fragment, useContext } from 'react';
 import { HttpStatusEnum } from '../enums/httpStatusEnum';
 import { TokenEnum } from '../enums/tokenEnum';
-import { useOAuthClient } from '../providers/NmsitdOAuthProvider';
+import { useOAuthClient } from '../providers/NmsItdOAuthProvider';
 import AuthLanding from './AuthLanding';
 
 const Main = ({ children }) => {

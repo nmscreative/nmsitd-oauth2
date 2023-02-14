@@ -1,2 +1,2 @@
-export { default } from './NmsitdOAuthProvider';
-export { useOAuthClient } from './NmsitdOAuthProvider';
+export { default } from './NmsItdOAuthProvider';
+export { useOAuthClient } from './NmsItdOAuthProvider';
