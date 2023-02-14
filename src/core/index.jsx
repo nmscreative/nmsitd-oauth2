@@ -1,1 +1,1 @@
-export { default } from './NmsItdOAuth2Client';
+export { default } from './NmsItdOAuthClient';

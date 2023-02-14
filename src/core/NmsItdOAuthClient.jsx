@@ -2,7 +2,7 @@ import { create } from "apisauce";
 import env from "../config/env";
 import { TokenEnum } from "../enums/tokenEnum";
 
-export default class NmsItdOAuth2Client 
+export default class NmsItdOAuthClient 
 {
   oauthClientId;
   oauthURL;

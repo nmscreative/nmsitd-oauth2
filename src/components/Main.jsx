@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import React, { Fragment, useContext } from 'react';
 import { HttpStatusEnum } from '../enums/httpStatusEnum';
 import { TokenEnum } from '../enums/tokenEnum';
-import { NmsitdOAuthContext } from '../providers/NmsitdOAuthProvider';
+import { useOAuthClient } from '../providers/NmsitdOAuthProvider';
 import AuthLanding from './AuthLanding';
 
 const Main = ({ children }) => {
-  const { oauth } = useContext(NmsitdOAuthContext);
+  const { oauth } = useOAuthClient();
   const logout = ({ status }) => {
     if(HttpStatusEnum.UNAUTHENTICATED === status) {
       sessionStorage.clear();

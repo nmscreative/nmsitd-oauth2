@@ -2,10 +2,10 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { CodeChallengeEnum } from '../enums/codeChallengeEnum';
 import { TokenEnum } from '../enums/tokenEnum';
 import pkce from '../helpers/pkce';
-import { NmsitdOAuthContext } from '../providers/NmsitdOAuthProvider';
+import { useOAuthClient } from '../providers/NmsitdOAuthProvider';
 
 const AuthLanding = () => {
-  const { oauth } = useContext(NmsitdOAuthContext);
+  const { oauth } = useOAuthClient();
   const [authState, setAuthState] = useState(null);
 
   const authProcess = async (authState) => {
