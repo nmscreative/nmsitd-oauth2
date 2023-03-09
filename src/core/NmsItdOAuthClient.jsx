@@ -9,11 +9,13 @@ export default class NmsItdOAuthClient
   oauthRedirectURI;
   api;
   authUser;
+  ignoreRoutes = [];
   constructor(config = {})
   {
     this.oauthURL = config?.oauthURL || null;
     this.oauthClientId = config?.oauthClientId || null;
     this.oauthRedirectURI = config?.oauthRedirectURI || null;
+    this.ignoreRoutes = config?.ignoreRoutes || [];
     this.checkOAuthConfig();
 
     this.api = create({
@@ -31,7 +33,9 @@ export default class NmsItdOAuthClient
       this.isBlank(this.oauthURL) ||
       this.isBlank(this.oauthClientId) ||
       this.isBlank(this.oauthRedirectURI)
-    ) throw new Error('Error OAuth Config: required.');
+    ) throw ('Error OAuth Config: required.');
+
+    if(!Array.isArray(this.ignoreRoutes)) throw 'ignoreRoutes must be an array.';
     return false
   }
 

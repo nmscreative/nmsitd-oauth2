@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { createContext } from 'react';
 import BaseProvider from './BaseProvider';
 
@@ -14,11 +14,26 @@ export const useOAuthClient = () => {
 };
 
 const NmsItdOAuthProvider = ({ children, oauth }) => {
+  const { pathname } = window.location;
+
+  const isIgnoreRoute = () => {
+    const ignoredRoutes = oauth.ignoreRoutes ?? [];
+    return ignoredRoutes?.includes(pathname);
+  }
+
   return (
     <NmsItdOAuthContext.Provider value={{ oauth }}>
-      <BaseProvider>
-        {children}
-      </BaseProvider>
+      {
+        (isIgnoreRoute()) ? (
+          <Fragment>
+            {children}
+          </Fragment>
+        ) : (
+          <BaseProvider>
+            {children}
+          </BaseProvider>
+        )
+      }
     </NmsItdOAuthContext.Provider>
   );
 }
