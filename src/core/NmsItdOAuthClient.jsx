@@ -1,17 +1,20 @@
 import { create } from "apisauce";
 import env from "../config/env";
 import { TokenEnum } from "../enums/tokenEnum";
+import OAuthUser from "./OAuthUser";
 
-export default class NmsItdOAuthClient 
+export default class NmsItdOAuthClient extends OAuthUser
 {
   oauthClientId;
   oauthURL;
   oauthRedirectURI;
   api;
-  authUser;
   ignoreRoutes = [];
+  authUser;
+
   constructor(config = {})
   {
+    super();
     this.oauthURL = config?.oauthURL || null;
     this.oauthClientId = config?.oauthClientId || null;
     this.oauthRedirectURI = config?.oauthRedirectURI || null;
@@ -57,6 +60,7 @@ export default class NmsItdOAuthClient
   {
     if (response.ok) {
       this.authUser = response.data;
+      this.oauthUserData(response.data);
       return response.data;
     }
     return Promise.reject(response); 
