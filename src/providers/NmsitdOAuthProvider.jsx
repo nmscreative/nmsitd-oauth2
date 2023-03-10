@@ -13,7 +13,7 @@ export const useOAuthClient = () => {
   return oauthClient;
 };
 
-const NmsItdOAuthProvider = ({ children, oauth }) => {
+const NmsItdOAuthProvider = ({ children, oauth, developerMode = false }) => {
   const { pathname } = window.location;
 
   const isIgnoreRoute = () => {
@@ -24,7 +24,7 @@ const NmsItdOAuthProvider = ({ children, oauth }) => {
   return (
     <NmsItdOAuthContext.Provider value={{ oauth }}>
       {
-        (isIgnoreRoute()) ? (
+        (isIgnoreRoute() || Boolean(developerMode)) ? (
           <Fragment>
             {children}
           </Fragment>
