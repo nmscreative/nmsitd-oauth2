@@ -1,7 +1,8 @@
 {
   "name": "nmsitd-oauth2",
   "private": false,
-  "version": "1.1.9",
+  "author": "Jon Rey",
+  "version": "1.1.10",
   "type": "module",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
@@ -18,6 +19,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nmscreative/nmsitd-oauth2"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.24.4",
