@@ -51,6 +51,11 @@ export default class NmsItdOAuthClient extends OAuthUser
     return this.api.post(`/api/${env.API_VERSION_1}/oauth/token`, params);
   }
 
+  fetchPlatformList()
+  {
+    return this.api.post(`/api/${env.API_VERSION_1}/client/oauth/platform-list'`);
+  }
+
   oauthUser()
   {
     return this.api.get(`/api/${env.API_VERSION_1}/oauth/auth-user`);
