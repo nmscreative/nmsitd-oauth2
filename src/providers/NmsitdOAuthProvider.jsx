@@ -18,7 +18,10 @@ const NmsItdOAuthProvider = ({ children, oauth, developerMode = false }) => {
 
   const isIgnoreRoute = () => {
     const ignoredRoutes = oauth.ignoreRoutes ?? [];
-    return ignoredRoutes?.includes(pathname);
+    return ignoredRoutes.some(route => {
+      const routeRegex = new RegExp(`^${route.replace(/\*/g, "[^/]*")}$`);
+      return routeRegex.test(pathname);
+    });
   }
 
   return (
