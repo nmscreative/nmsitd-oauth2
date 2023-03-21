@@ -57,11 +57,11 @@ const PKCEAuthCodeSecondStep = async (oauth, code) => {
     code_verifier: sessionStorage.getItem(CodeChallengeEnum.CODE_VERIFIER),
     code: code
   };
+  sessionStorage.removeItem( CodeChallengeEnum.CODE_VERIFIER);
   try {
     const result = await oauth.fetchToken(params);
     if (!result.ok) throw new Error('access token');
     const tokenResponse = result.data;
-    sessionStorage.removeItem( CodeChallengeEnum.CODE_VERIFIER);
     localStorage.setItem(TokenEnum.TOKEN_TYPE, tokenResponse.token_type);
     localStorage.setItem(TokenEnum.EXPIRES_IN, tokenResponse.expires_in);
     localStorage.setItem(TokenEnum.ACCESS_TOKEN, tokenResponse.access_token);
