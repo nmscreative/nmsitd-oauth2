@@ -10,7 +10,14 @@ const AuthLanding = () => {
 
   const authProcess = async (authState) => {
     const accessToken = localStorage.getItem(TokenEnum.ACCESS_TOKEN);
-    if(!sessionStorage.getItem(CodeChallengeEnum.CODE_VERIFIER) && !accessToken) return pkce.PKCEAuthCodeFirstStep(oauth);
+    let tokenIsExpired = !accessToken;
+
+    if(tokenIsExpired) {
+      const result = await oauth.ping();
+      tokenIsExpired = !result.ok;
+    }
+
+    if(tokenIsExpired) return pkce.PKCEAuthCodeFirstStep(oauth);
     if(authState?.authCode && !accessToken) return await pkce.PKCEAuthCodeSecondStep(oauth, authState?.authCode);
   }
 

@@ -66,6 +66,11 @@ export default class NmsItdOAuthClient extends OAuthUser
     return this.api.get(`/api/${env.API_VERSION_1}/oauth/auth-user`);
   }
 
+  ping()
+  {
+    return this.api.get(`/api/${env.API_VERSION_1}/oauth/ping`);
+  }
+
   handleOauthResponse(response)
   {
     if (response.ok) {
